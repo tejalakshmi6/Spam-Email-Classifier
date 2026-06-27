@@ -2,10 +2,18 @@
 <html>
 
 <head>
-    <title>Spam Email Classifier</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
+
+<div class="container">
 
     <h1>Spam Email Classifier</h1>
 
@@ -13,18 +21,30 @@
 
         <textarea
             name="email"
-            rows="10"
-            cols="60"
             placeholder="Paste your email here..."
-        ></textarea>
-
-        <br><br>
+        >{{ email if email else "" }}</textarea>
 
         <button type="submit">
             Predict
         </button>
 
     </form>
+
+    {% if prediction %}
+
+    <div class="result {{ result_class }}">
+
+        <h2>Prediction</h2>
+        <p>{{ prediction }}</p>
+
+        <h3>Confidence</h3>
+        <p>{{ confidence }}%</p>
+
+    </div>
+
+    {% endif %}
+
+</div>
 
 </body>
 
