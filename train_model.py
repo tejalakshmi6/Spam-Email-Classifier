@@ -7,10 +7,9 @@ from sklearn.metrics import accuracy_score
 
 import joblib
 
+# Load SMS spam dataset
 df = pd.read_csv("dataset/spam.tsv", sep="\t", header=None)
-
 df.columns = ["label", "message"]
-
 print(df.head())
 
 df["label"] = df["label"].map({"ham": 0, "spam": 1})
@@ -18,6 +17,7 @@ df["label"] = df["label"].map({"ham": 0, "spam": 1})
 X = df["message"]
 y = df["label"]
 
+# Split data: 80% train, 20% test
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
@@ -27,9 +27,11 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 vectorizer = TfidfVectorizer()
 
+# Convert text into TF-IDF numerical features
 X_train = vectorizer.fit_transform(X_train)
 X_test = vectorizer.transform(X_test)
 
+# Multinomial Naive Bayes for text classification tasks
 model = MultinomialNB()
 model.fit(X_train, y_train)
 
@@ -38,6 +40,7 @@ accuracy = accuracy_score(y_test, y_pred)
 
 print("Accuracy:", accuracy)
 
+# Save the trained model and vectorizer using joblib
 joblib.dump(model, "model.pkl")
 joblib.dump(vectorizer, "vectorizer.pkl")
 
